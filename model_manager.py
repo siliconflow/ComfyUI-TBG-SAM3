@@ -88,6 +88,11 @@ def download_sam3_model(hf_repo: str = "facebook/sam3") -> str:
         local_dir_use_symlinks=False,
     )
 
+    if downloaded_path is None:
+        raise RuntimeError(
+            f"Failed to download sam3.pt from {hf_repo}: hf_hub_download returned no path. "
+            "Check network access to huggingface.co or pre-place sam3.pt at " + local_ckpt_path
+        )
     if downloaded_path != local_ckpt_path:
         import shutil
         shutil.move(downloaded_path, local_ckpt_path)
